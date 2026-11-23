@@ -9,7 +9,7 @@ ARG FINALWISP_VERSION=v1.5.0
 WORKDIR /tmp
 RUN apk add --no-cache curl \
  && case "$(uname -m)" in x86_64) ;; *) echo "finalwisp supports x86_64 only (this build is $(uname -m)); see FINALWISP.md" >&2; exit 1 ;; esac \
- && curl -sLO "https://github.com/theogbob/finalwisp/releases/download/${FINALWISP_VERSION}/finalwisp-${FINALWISP_VERSION}-x86_64-linux.tar.gz" \
+ && curl -sLO "https://github.com/theogbob/finalwisp/releases/download/FINALWISPVERSION/finalwisp-{FINALWISP_VERSION}-x86_64-linux.tar.gz" \
  && curl -sLO "https://github.com/theogbob/finalwisp/releases/download/${FINALWISP_VERSION}/SHA256SUMS" \
  && tar -xzf "finalwisp-${FINALWISP_VERSION}-x86_64-linux.tar.gz" \
  && sha256sum -c SHA256SUMS \
@@ -44,3 +44,4 @@ EXPOSE 8080 9050 9051
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s CMD wget -q -O /dev/null "http://127.0.0.1:${PORT:-8080}/" || exit 1
 # Start Tor in the background (it may take a while to bootstrap), then the server
 CMD ["sh", "-c", "tor & exec node dist/server.js"]
+
